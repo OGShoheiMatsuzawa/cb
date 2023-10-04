@@ -9,6 +9,7 @@ import { MatCardModule } from '@angular/material/card'
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatListModule } from '@angular/material/list'
 import { MatDividerModule } from '@angular/material/divider'
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { MatDividerModule } from '@angular/material/divider'
     MatCardModule,
     MatCheckboxModule,
     MatListModule,
-    MatDividerModule
+    MatDividerModule,
+    MatTableModule
   ],
   providers: [],
   bootstrap: [AppComponent]

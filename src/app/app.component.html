@@ -1,42 +1,92 @@
 <mat-card>
   <mat-card-content>
-  <h2>Basic Example</h2>
-  
-  <mat-list>
-    <mat-list-item>
-      <mat-checkbox checked="true">Checkbox Checked</mat-checkbox>
-    </mat-list-item>
-    <mat-divider></mat-divider>
-    <mat-list-item>
-      <mat-checkbox>Checkbox UnChecked</mat-checkbox>
-    </mat-list-item>
-    <mat-divider></mat-divider>
-    <mat-list-item>
-      <mat-checkbox indeterminate="true">Checkbox Indeterminate</mat-checkbox>
-    </mat-list-item>
-    <mat-divider></mat-divider>
-    <mat-list-item>
-      <mat-checkbox labelPosition="before">Checkbox Label before</mat-checkbox>
-    </mat-list-item>
-    <mat-list-item>
-      <mat-checkbox labelPosition="after">Checkbox Label after</mat-checkbox>
-    </mat-list-item>
-    <mat-divider></mat-divider>
-    <mat-list-item>
-      <mat-checkbox disableRipple="true">Checkbox Ripple Disabled</mat-checkbox>
-    </mat-list-item>
-    <mat-divider></mat-divider>
-    <mat-list-item>
-      <mat-checkbox disabled="true">Checkbox Disabled</mat-checkbox>
-    </mat-list-item>
-    <mat-divider></mat-divider>
-    <mat-list-item>
-      <mat-checkbox color="primary"checked=true>Checkbox Theme Primary</mat-checkbox>
-    </mat-list-item>
-    <mat-divider></mat-divider>
-    <mat-list-item>
-      <mat-checkbox color="warn"checked=true>Checkbox Theme Warn</mat-checkbox>
-    </mat-list-item>
-  </mat-list>
-  <mat-card-content>
-  <mat-card>
+    <h2>Basic Example</h2>
+    
+    <mat-list>
+      <mat-list-item>
+        <mat-checkbox checked="true">Checkbox Checked</mat-checkbox>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item>
+        <mat-checkbox>Checkbox UnChecked</mat-checkbox>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item>
+        <mat-checkbox indeterminate="true">Checkbox Indeterminate</mat-checkbox>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item>
+        <mat-checkbox labelPosition="before">Checkbox Label before</mat-checkbox>
+      </mat-list-item>
+      <mat-list-item>
+        <mat-checkbox labelPosition="after">Checkbox Label after</mat-checkbox>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item>
+        <mat-checkbox disableRipple="true">Checkbox Ripple Disabled</mat-checkbox>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item>
+        <mat-checkbox disabled="true">Checkbox Disabled</mat-checkbox>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item>
+        <mat-checkbox color="primary"checked=true>Checkbox Theme Primary</mat-checkbox>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item>
+        <mat-checkbox color="warn"checked=true>Checkbox Theme Warn</mat-checkbox>
+      </mat-list-item>
+    </mat-list>
+  </mat-card-content>
+</mat-card>
+
+
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <!-- Checkbox Column -->
+  <ng-container matColumnDef="select">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-checkbox
+        (chenge)="$event ? toggleAllRows() : null"
+        [checked]="selection.hasValue() && isAllSelected()"
+        [indeterminate]="selection.hasValue() && !isAllSelected()"
+        [aria-label]="checkboxLabel()">
+      </mat-checkbox>
+    </th>
+    <td mat-cell *matCellDef="let row">
+      <mat-checkbox
+        (click)="$event.stopPropagation()"
+        (change)="$event ? selection.toggle(row) : null"
+        [checked]="selection.isSelected(row)"
+        [aria-label]="checkboxLabel(row)">
+      </mat-checkbox>
+    </td>
+  </ng-container>
+
+  <!-- Position Column -->
+  <ng-container matColumnDef="position">
+    <th mat-header-cell *matHeaderCellDef> No. </th>
+    <td mat-cell *matCellDef="let element"> {{ element.position }} </td>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> Name</th>
+    <td mat-cell *matCellDef="let element"> {{ element.name }} </td>
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container matColumnDef="weight">
+    <th mat-header-cell *matHeaderCellDef> Weight </th>
+    <td mat-cell *matCellDef="let element"> {{ element.weight }}</td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="symbol">
+    <th mat-header-cell *matHeaderCellDef> Symbol </th>
+    <td mat-cell *matCellDef="let element"> {{ element.symbol }}</td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)"></tr>
+</table>
