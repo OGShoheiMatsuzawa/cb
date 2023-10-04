@@ -1,3 +1,4 @@
+<!--
 <mat-card>
   <mat-card-content>
     <h2>Basic Example</h2>
@@ -40,14 +41,15 @@
     </mat-list>
   </mat-card-content>
 </mat-card>
-
+-->
 
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
   <!-- Checkbox Column -->
   <ng-container matColumnDef="select">
+    <!-- チェックボックスを全選択 -->
     <th mat-header-cell *matHeaderCellDef>
       <mat-checkbox
-        (chenge)="$event ? toggleAllRows() : null"
+        (change)="$event ? toggleAllRows() : null"
         [checked]="selection.hasValue() && isAllSelected()"
         [indeterminate]="selection.hasValue() && !isAllSelected()"
         [aria-label]="checkboxLabel()">
