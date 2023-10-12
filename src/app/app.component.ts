@@ -23,15 +23,21 @@ const ELEMENT_DATA: PeriodicElement[] = [
   {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
 ];
 
+export interface Checked {
+  index: number;
+  checked: boolean;
+}
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
+
 export class AppComponent {
   displayedColumns: string[] = ['select', 'position', 'name', 'weight', 'symbol'];
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-  selection = new SelectionModel<PeriodicElement>(true, []);
+  selection = new SelectionModel<PeriodicElement>(true, []); // (multiple selections, array of initially selected values)
 
   /**  Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
@@ -57,4 +63,31 @@ export class AppComponent {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
 
+  /** Range check list (以下、末尾まで自作部分) */
+  private lastChecked: Checked = {
+    index: 1,
+    checked: true
+  }
+
+  checkRange(e: any) {
+    let nth: number = e.target.id.replace(/[^0-9]/g, '') - 1; // クリックされたとき、チェックボックスのindex取得
+    if (this.lastChecked.index == 0 && this.lastChecked.checked == false) { // 最初すべて未チェックの状態でShift
+      this.lastChecked.checked = true;
+    }
+
+    // チェックボックスがすべて未チェックの場合
+    if (e.shiftKey && this.lastChecked.index == 0) {
+      console.log("チェックボックスがすべてfalseの場合");
+    }
+    // 直前にチェックを入れた、かつShift+クリックをしたとき
+    else if (this.lastChecked.checked == true && e.shiftKey) {
+      for (let i = Math.min(this.lastChecked.index, nth); i <= Math.max(this.lastChecked.index, nth); i++) {
+        this.selection.select(this.dataSource.data[i-1]);
+      }
+    }
+
+    this.lastChecked = { index: nth, checked: e.target.checked };
+    // console.log(`lastCheckedはindex: ${this.lastChecked.index}, checked: ${this.lastChecked.checked}`);
+    // console.log(e.target);
+  }
 }
